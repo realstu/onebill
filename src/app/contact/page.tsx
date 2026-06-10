@@ -40,25 +40,25 @@ export default function ContactPage() {
         <div className="space-y-5">
           <h2 className="font-bold text-slate-900 text-xl mb-6">Contact Information</h2>
           <div className="flex items-start gap-3">
-            <div className="bg-teal-500/10 border border-teal-500/20 text-teal-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="bg-blue-600/10 border border-blue-600/20 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <Phone size={17} />
             </div>
             <div>
               <div className="font-semibold text-slate-900 text-sm">Phone</div>
-              <a href="tel:647-980-8315" className="text-slate-500 text-sm hover:text-teal-600 transition-colors">647-980-8315</a>
+              <a href="tel:647-980-8315" className="text-slate-500 text-sm hover:text-blue-700 transition-colors">647-980-8315</a>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="bg-teal-500/10 border border-teal-500/20 text-teal-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="bg-blue-600/10 border border-blue-600/20 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <Mail size={17} />
             </div>
             <div>
               <div className="font-semibold text-slate-900 text-sm">Email</div>
-              <a href="mailto:stuartoggrealtor@gmail.com" className="text-slate-500 text-sm hover:text-teal-600 transition-colors">stuartoggrealtor@gmail.com</a>
+              <a href="mailto:stuartoggrealtor@gmail.com" className="text-slate-500 text-sm hover:text-blue-700 transition-colors">stuartoggrealtor@gmail.com</a>
             </div>
           </div>
           <div className="flex items-start gap-3">
-            <div className="bg-teal-500/10 border border-teal-500/20 text-teal-600 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="bg-blue-600/10 border border-blue-600/20 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
               <MapPin size={17} />
             </div>
             <div>
@@ -67,7 +67,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-teal-50 border border-teal-200 rounded-2xl p-4 mt-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mt-4">
             <p className="text-teal-800 text-sm font-medium mb-1">Response time</p>
             <p className="text-teal-700 text-sm">We respond to all inquiries within 1 business day.</p>
           </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
         <div className="md:col-span-2">
           {submitted ? (
             <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm h-full flex flex-col items-center justify-center">
-              <CheckCircle size={48} className="text-teal-500 mb-4" />
+              <CheckCircle size={48} className="text-blue-600 mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">Message Sent!</h3>
               <p className="text-slate-500 text-sm">We&apos;ll be in touch within 1 business day.</p>
             </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <button type="submit"
-                className="w-full bg-teal-500 hover:bg-teal-400 text-white font-bold py-3 rounded-xl transition-colors">
+                className="w-full bg-blue-700 hover:bg-blue-600 text-white font-bold py-3 rounded-xl transition-colors">
                 Send Message
               </button>
             </form>

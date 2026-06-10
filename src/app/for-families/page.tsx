@@ -22,21 +22,21 @@ export default function ForFamiliesPage() {
       {/* Hero */}
       <section className="relative bg-slate-900 text-white overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-[-10%] left-[50%] -translate-x-1/2 w-[700px] h-[400px] bg-teal-600/15 rounded-full blur-[100px]" />
+          <div className="absolute top-[-10%] left-[50%] -translate-x-1/2 w-[700px] h-[400px] bg-blue-700/15 rounded-full blur-[100px]" />
         </div>
         <div className="relative max-w-4xl mx-auto px-4 py-16 md:py-24 text-center">
-          <div className="inline-flex items-center gap-2 bg-teal-500/15 border border-teal-500/25 text-teal-300 text-xs md:text-sm font-medium px-3 py-1.5 rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 bg-blue-600/15 border border-blue-600/25 text-blue-300 text-xs md:text-sm font-medium px-3 py-1.5 rounded-full mb-6">
             <Heart size={13} /> For Families
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Stop worrying about<br />
-            <span className="bg-gradient-to-r from-teal-400 to-teal-300 bg-clip-text text-transparent">your parent&apos;s bills.</span>
+            <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">your parent&apos;s bills.</span>
           </h1>
           <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
             You sign up. You pay the plan. Your parent gets simplicity, a trusted visitor, and their independence. You get to stop worrying.
           </p>
           <Link href="/get-started"
-            className="inline-flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-teal-500/25">
+            className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-600/25">
             Set This Up for My Parent <ArrowRight size={17} />
           </Link>
         </div>
@@ -46,7 +46,7 @@ export default function ForFamiliesPage() {
       <section className="py-14 md:py-20 px-4 bg-slate-50 border-b border-slate-100">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-teal-600 uppercase tracking-widest mb-2">Sound Familiar?</p>
+            <p className="text-xs font-semibold text-blue-700 uppercase tracking-widest mb-2">Sound Familiar?</p>
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900">The worry stops here.</h2>
           </div>
           <div className="space-y-3">
@@ -56,8 +56,8 @@ export default function ForFamiliesPage() {
                   <div className="w-2 h-2 rounded-full bg-red-400 shrink-0" />
                   <p className="text-slate-600 text-sm italic">&ldquo;{item.worry}&rdquo;</p>
                 </div>
-                <div className="p-5 flex items-center gap-3 bg-teal-50">
-                  <CheckCircle size={16} className="text-teal-500 shrink-0" />
+                <div className="p-5 flex items-center gap-3 bg-blue-50">
+                  <CheckCircle size={16} className="text-blue-600 shrink-0" />
                   <p className="text-slate-700 text-sm font-medium">{item.solution}</p>
                 </div>
               </div>
@@ -70,14 +70,14 @@ export default function ForFamiliesPage() {
       <section className="py-14 md:py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="text-xs font-semibold text-teal-600 uppercase tracking-widest mb-2">How It Works</p>
+            <p className="text-xs font-semibold text-blue-700 uppercase tracking-widest mb-2">How It Works</p>
             <h2 className="text-2xl md:text-3xl font-bold text-slate-900">You set it up once. It runs itself.</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-5">
             {STEPS.map((s) => (
               <div key={s.step} className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
                 <div className="absolute top-5 right-5 text-5xl font-black text-slate-100 leading-none select-none">{s.step}</div>
-                <div className="bg-teal-500/10 border border-teal-500/20 text-teal-700 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mb-4">
+                <div className="bg-blue-600/10 border border-blue-600/20 text-teal-700 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mb-4">
                   {s.step}
                 </div>
                 <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
@@ -91,7 +91,7 @@ export default function ForFamiliesPage() {
       {/* Plan comparison */}
       <section className="py-14 md:py-20 px-4 bg-slate-50 border-y border-slate-100">
         <div className="max-w-3xl mx-auto text-center mb-10">
-          <p className="text-xs font-semibold text-teal-600 uppercase tracking-widest mb-2">Plans</p>
+          <p className="text-xs font-semibold text-blue-700 uppercase tracking-widest mb-2">Plans</p>
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Pick what your parent needs</h2>
         </div>
         <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-5">
@@ -102,7 +102,7 @@ export default function ForFamiliesPage() {
             <ul className="space-y-2 mb-6">
               {['All bills consolidated', 'One monthly payment', 'Family dashboard', 'Confirmation alerts'].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm text-slate-700">
-                  <CheckCircle size={13} className="text-teal-500 shrink-0" /> {f}
+                  <CheckCircle size={13} className="text-blue-600 shrink-0" /> {f}
                 </li>
               ))}
             </ul>
@@ -110,8 +110,8 @@ export default function ForFamiliesPage() {
               Choose Essential
             </Link>
           </div>
-          <div className="relative bg-slate-900 border border-slate-700 ring-2 ring-teal-500/50 rounded-2xl p-6">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+          <div className="relative bg-slate-900 border border-slate-700 ring-2 ring-blue-600/50 rounded-2xl p-6">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-700 text-white text-xs font-bold px-3 py-1 rounded-full">
               Recommended
             </div>
             <h3 className="font-bold text-white text-xl mb-1">Premium</h3>
@@ -120,11 +120,11 @@ export default function ForFamiliesPage() {
             <ul className="space-y-2 mb-6">
               {['Everything in Essential', 'Monthly Mobile Teller visit', 'Fraud & error detection', 'Written visit report to family', 'Priority support'].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm text-slate-300">
-                  <CheckCircle size={13} className="text-teal-500 shrink-0" /> {f}
+                  <CheckCircle size={13} className="text-blue-600 shrink-0" /> {f}
                 </li>
               ))}
             </ul>
-            <Link href="/get-started" className="block text-center bg-teal-500 hover:bg-teal-400 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+            <Link href="/get-started" className="block text-center bg-blue-700 hover:bg-blue-600 text-white font-bold py-3 rounded-xl text-sm transition-colors">
               Choose Premium
             </Link>
           </div>
@@ -138,7 +138,7 @@ export default function ForFamiliesPage() {
           <p className="text-slate-500 text-sm mb-7">Takes 5 minutes. We handle everything from there. Your parent will thank you.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/get-started"
-              className="inline-flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold px-8 py-3.5 rounded-xl transition-colors">
+              className="inline-flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-colors">
               Get Started <ArrowRight size={16} />
             </Link>
             <Link href="/contact"

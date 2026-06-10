@@ -5,11 +5,9 @@ import { useState } from 'react'
 import { Menu, X, Home } from 'lucide-react'
 
 const NAV_LINKS = [
-  { href: '/financial', label: 'One Bill Financial' },
-  { href: '/mobile-teller', label: 'Mobile Teller' },
-  { href: '/pods', label: 'Senior Pods' },
-  { href: '/care-network', label: 'Care Network' },
+  { href: '/financial', label: 'How It Works' },
   { href: '/for-families', label: 'For Families' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export default function Navbar() {
@@ -21,11 +19,11 @@ export default function Navbar() {
 
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-lg text-slate-900">
-          <div className="bg-teal-500 text-white rounded-xl p-1.5">
+          <div className="bg-blue-700 text-white rounded-xl p-1.5">
             <Home size={17} />
           </div>
           <span>One Bill</span>
-          <span className="text-xs font-medium bg-teal-50 text-teal-600 px-2 py-0.5 rounded-full border border-teal-200">
+          <span className="text-xs font-medium bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
             Durham Region
           </span>
         </Link>
@@ -43,7 +41,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/get-started"
-            className="bg-teal-500 hover:bg-teal-400 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors"
+            className="bg-blue-700 hover:bg-blue-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition-colors"
           >
             Get Started
           </Link>
@@ -73,7 +71,7 @@ export default function Navbar() {
           ))}
           <Link
             href="/get-started"
-            className="bg-teal-500 text-white font-semibold text-center py-2.5 rounded-xl"
+            className="bg-blue-700 text-white font-semibold text-center py-2.5 rounded-xl"
             onClick={() => setOpen(false)}
           >
             Get Started

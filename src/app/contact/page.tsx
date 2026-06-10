@@ -19,7 +19,7 @@ export default function ContactPage() {
     const body = encodeURIComponent(
       `Name: ${form.name}\nPhone: ${form.phone}\nEmail: ${form.email}\nTopic: ${form.topic}\n\nMessage:\n${form.message}`
     )
-    window.location.href = `mailto:stuartoggrealtor@gmail.com?subject=${subject}&body=${body}`
+    window.location.href = `mailto:stu@onebill.ca?subject=${subject}&body=${body}`
     setSubmitted(true)
   }
 
@@ -54,7 +54,7 @@ export default function ContactPage() {
             </div>
             <div>
               <div className="font-semibold text-slate-900 text-sm">Email</div>
-              <a href="mailto:stuartoggrealtor@gmail.com" className="text-slate-500 text-sm hover:text-blue-700 transition-colors">stuartoggrealtor@gmail.com</a>
+              <a href="mailto:stu@onebill.ca" className="text-slate-500 text-sm hover:text-blue-700 transition-colors">stu@onebill.ca</a>
             </div>
           </div>
           <div className="flex items-start gap-3">

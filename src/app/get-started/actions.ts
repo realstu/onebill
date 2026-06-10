@@ -87,7 +87,7 @@ export async function submitOneBillSignup(data: {
   // 5. Notify admin
   await resend.emails.send({
     from: 'One Bill <onboarding@resend.dev>',
-    to: 'stu@crimefax.io',
+    to: 'stu@onebill.ca',
     subject: `New One Bill Sign-Up — ${data.parentName}`,
     html: `
       <h2>New One Bill Client Signup</h2>

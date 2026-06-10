@@ -61,7 +61,11 @@ export default function RootLayout({
           </div>
           <div className="max-w-6xl mx-auto px-4 py-5 border-t border-white/[0.06] flex flex-col md:flex-row justify-between gap-2">
             <span>© {new Date().getFullYear()} One Bill. Durham Region, Ontario.</span>
-            <span>Not a licensed financial institution. Care coordination services only.</span>
+            <div className="flex gap-4">
+              <a href="/terms" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/pad-agreement" className="hover:text-white transition-colors">PAD Agreement</a>
+              <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            </div>
           </div>
         </footer>
       </body>

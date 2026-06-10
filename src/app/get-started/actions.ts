@@ -87,7 +87,7 @@ export async function submitOneBillSignup(data: {
   // 5. Notify admin
   await resend.emails.send({
     from: 'One Bill <onboarding@resend.dev>',
-    to: 'stu@onebill.ca',
+    to: 'stuartoggrealtor@gmail.com',
     subject: `New One Bill Sign-Up — ${data.parentName}`,
     html: `
       <h2>New One Bill Client Signup</h2>

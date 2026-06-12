@@ -10,14 +10,34 @@ const font = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "One Bill — All Your Parent's Bills. One Payment.",
-  description: "One Bill consolidates every bill your parent has into a single monthly payment. Utilities, insurance, phone, internet — all handled. Serving Durham Region, Ontario.",
-  keywords: "seniors bill consolidation Durham Region, senior bill management Ontario, one bill payment seniors",
+  title: "One Bill — Every Bill. One Payment.",
+  description: "One Bill consolidates every bill into a single monthly payment. Utilities, insurance, phone, internet — all handled. Ontario, Canada.",
+  keywords: "bill consolidation Ontario, bill management service, one monthly payment, utility bill consolidation Canada",
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
   openGraph: {
-    title: "One Bill — All Your Parent's Bills. One Payment.",
-    description: "One Bill consolidates every bill your parent has into a single monthly payment.",
+    title: "One Bill — Every Bill. One Payment.",
+    description: "One Bill consolidates every bill into a single monthly payment. Utilities, insurance, phone, internet — all handled. Ontario, Canada.",
     siteName: "One Bill",
     type: "website",
+    url: "https://onebill.ca",
+    images: [
+      {
+        url: "https://onebill.ca/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "One Bill — Every Bill. One Payment.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "One Bill — Every Bill. One Payment.",
+    description: "One Bill consolidates every bill into a single monthly payment. Ontario, Canada.",
+    images: ["https://onebill.ca/opengraph-image"],
   },
 };
 
@@ -37,13 +57,13 @@ export default function RootLayout({
               <div className="flex items-center gap-2 text-white font-bold text-lg mb-3">
                 <div className="bg-blue-700 text-white rounded-xl p-1.5">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
+                    <rect x="2" y="5" width="20" height="14" rx="2"/>
+                    <path d="M16 10h2M16 14h2M6 10h8M6 14h5"/>
                   </svg>
                 </div>
                 One Bill
               </div>
-              <p className="text-slate-500 text-sm leading-relaxed">All your parent&apos;s bills. One payment. One date. Serving Durham Region, Ontario.</p>
+              <p className="text-slate-500 text-sm leading-relaxed">Every bill. One payment. One date. Ontario, Canada.</p>
             </div>
             <div className="flex gap-12">
               <div className="flex flex-col gap-3">

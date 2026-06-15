@@ -1,6 +1,5 @@
 import { ImageResponse } from 'next/og'
 
-// removed edge runtime — using default Node.js runtime for reliability
 export const alt = "One Bill — Every Bill. One Payment."
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
@@ -22,14 +21,7 @@ export default function OGImage() {
         }}
       >
         {/* Logo mark */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            marginBottom: '48px',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '48px' }}>
           <div
             style={{
               width: '60px',
@@ -47,39 +39,24 @@ export default function OGImage() {
           >
             1B
           </div>
-          <span style={{ color: 'white', fontSize: '32px', fontWeight: 'bold', letterSpacing: '-0.5px' }}>
+          <div style={{ display: 'flex', color: 'white', fontSize: '32px', fontWeight: 'bold' }}>
             One Bill
-          </span>
+          </div>
         </div>
 
-        {/* Headline */}
-        <div
-          style={{
-            fontSize: '72px',
-            fontWeight: 'bold',
-            color: 'white',
-            lineHeight: 1.1,
-            letterSpacing: '-2px',
-            marginBottom: '28px',
-            maxWidth: '900px',
-          }}
-        >
-          Every bill.
-          <br />
-          <span style={{ color: '#93c5fd' }}>One payment.</span>
+        {/* Headline — two lines as separate divs, no <br/> */}
+        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: '28px' }}>
+          <div style={{ fontSize: '72px', fontWeight: 'bold', color: 'white', lineHeight: 1.1, letterSpacing: '-2px' }}>
+            Every bill.
+          </div>
+          <div style={{ fontSize: '72px', fontWeight: 'bold', color: '#93c5fd', lineHeight: 1.1, letterSpacing: '-2px' }}>
+            One payment.
+          </div>
         </div>
 
         {/* Subtext */}
-        <div
-          style={{
-            fontSize: '28px',
-            color: 'rgba(255,255,255,0.6)',
-            marginBottom: '56px',
-            maxWidth: '700px',
-            lineHeight: 1.4,
-          }}
-        >
-          Hydro, internet, insurance, phone — we handle it all. Serving Durham Region, Ontario.
+        <div style={{ display: 'flex', fontSize: '28px', color: 'rgba(255,255,255,0.6)', marginBottom: '56px', maxWidth: '700px' }}>
+          Hydro, internet, insurance, phone — Durham Region, Ontario.
         </div>
 
         {/* Pills */}
@@ -88,6 +65,7 @@ export default function OGImage() {
             <div
               key={label}
               style={{
+                display: 'flex',
                 background: 'rgba(255,255,255,0.1)',
                 border: '1px solid rgba(255,255,255,0.2)',
                 borderRadius: '100px',

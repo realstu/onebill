@@ -18,8 +18,8 @@ export default function PADAgreementPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-2">1. Authorization</h2>
             <p>By completing the One Bill sign-up process and checking the agreement box, you (the &ldquo;Payor&rdquo;) authorize One Bill (&ldquo;One Bill&rdquo;) to debit your payment method for:</p>
             <ul className="list-disc pl-5 space-y-1 mt-2">
-              <li>Your monthly base subscription fee (Essential: $39/mo or Premium: $69/mo)</li>
-              <li>A 2.5% transaction fee on each bill payment processed on your behalf</li>
+              <li>Your monthly service fee (Essential: $29/mo or Premium: $49/mo)</li>
+              <li>A pre-authorized hold equal to your estimated monthly bills plus a 10% buffer (minimum $150), captured at actual cost at month end — you only pay what was spent</li>
             </ul>
           </section>
 

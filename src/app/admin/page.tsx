@@ -1,6 +1,10 @@
 import { supabaseAdmin } from '@/lib/supabase'
-import { CheckCircle, Clock, Users, DollarSign, ExternalLink, AlertCircle } from 'lucide-react'
+import { CheckCircle, Clock, Users, DollarSign, ExternalLink, AlertCircle, CalendarClock } from 'lucide-react'
+import Link from 'next/link'
 import UpdateClientStatus from './UpdateClientStatus'
+import LogPaymentButton from './LogPaymentButton'
+import SendStatementButton from './SendStatementButton'
+import RequestApprovalButton from './RequestApprovalButton'
 
 const STATUS_COLORS: Record<string, string> = {
   pending:   'bg-amber-100 text-amber-700 border-amber-200',
@@ -41,7 +45,7 @@ export default async function AdminPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-blue-400 text-xs font-semibold uppercase tracking-widest mb-1">One Bill Admin</p>
           <h1 className="text-2xl font-bold mb-6">Client Dashboard</h1>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             {[
               { icon: Users,       label: 'Total Clients',  value: total },
               { icon: CheckCircle, label: 'Active',         value: active },
@@ -58,6 +62,12 @@ export default async function AdminPage() {
               )
             })}
           </div>
+          <Link
+            href="/admin/queue"
+            className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors"
+          >
+            <CalendarClock size={15} /> View Payment Queue
+          </Link>
         </div>
       </div>
 
@@ -97,10 +107,17 @@ export default async function AdminPage() {
 
                       <div className="flex items-center gap-4 text-sm flex-wrap">
                         <div>
-                          <span className="text-slate-400 text-xs">Family contact</span>
+                          <span className="text-slate-400 text-xs">Contact</span>
                           <p className="font-semibold text-slate-800">{client.family_name}</p>
                           <p className="text-slate-500 text-xs">{client.family_phone} · {client.family_email}</p>
                         </div>
+                        {client.poa_name && (
+                          <div>
+                            <span className="text-slate-400 text-xs">Power of Attorney</span>
+                            <p className="font-semibold text-slate-800">{client.poa_name}</p>
+                            <p className="text-slate-500 text-xs">{client.poa_phone} · {client.poa_email}</p>
+                          </div>
+                        )}
                         <div>
                           <span className="text-slate-400 text-xs">Est. monthly fee</span>
                           <p className="font-bold text-blue-700">${estimatedMonthly}/mo</p>
@@ -128,6 +145,8 @@ export default async function AdminPage() {
                           <ExternalLink size={12} /> View in Stripe
                         </a>
                       )}
+                      <RequestApprovalButton clientId={client.id} email={client.family_email} />
+                      <SendStatementButton clientId={client.id} email={client.family_email} />
                       <UpdateClientStatus clientId={client.id} currentStatus={client.status} />
                     </div>
                   </div>
@@ -156,12 +175,18 @@ export default async function AdminPage() {
                                   <p className="text-slate-400 text-xs mt-0.5 font-mono">Acct: {bill.account_number}</p>
                                 )}
                               </div>
-                              <div className="text-right shrink-0">
+                              <div className="flex flex-col items-end gap-1.5 shrink-0">
                                 {bill.monthly_amount ? (
                                   <p className="text-sm font-bold text-slate-700">${bill.monthly_amount}</p>
                                 ) : (
                                   <p className="text-xs text-slate-300">No amount</p>
                                 )}
+                                <LogPaymentButton
+                                  billId={bill.id}
+                                  clientId={client.id}
+                                  provider={bill.provider}
+                                  estimatedAmount={bill.monthly_amount}
+                                />
                               </div>
                             </div>
                           </div>

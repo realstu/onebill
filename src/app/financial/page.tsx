@@ -10,8 +10,8 @@ const BILLS_HANDLED = [
 const HOW = [
   {
     icon: Phone,
-    title: 'We gather your bills',
-    desc: "After you sign up, we contact you to collect account details for each provider. Your parent's accounts stay in their name — we just schedule the payments.",
+    title: 'You submit your bills',
+    desc: "After signing up, upload photos of your bills or enter account details manually. All accounts stay in your name — we just coordinate the payments.",
   },
   {
     icon: Shield,
@@ -32,16 +32,16 @@ const HOW = [
 
 const FAQ = [
   {
-    q: "Do my parent's accounts stay in their name?",
-    a: 'Yes. We never take ownership of any accounts. We are a coordination and payment service — your parent remains the account holder for everything.',
+    q: "Do my accounts stay in my name?",
+    a: 'Yes. We never take ownership of any accounts. We are a coordination and payment service — you remain the account holder for everything.',
   },
   {
     q: 'What if a bill amount changes?',
     a: 'We monitor for changes and notify you before processing. You approve any significant changes before payment.',
   },
   {
-    q: 'What if my parent has more than 8 bills?',
-    a: 'The Essential plan covers up to 8 bills. Premium covers unlimited bills. Most seniors have 6–10 regular bills.',
+    q: 'What if I have more than 8 bills?',
+    a: 'The Essential plan covers up to 8 bills. Premium covers unlimited bills.',
   },
   {
     q: 'Is this a bank or financial institution?',
@@ -71,7 +71,7 @@ export default function FinancialPage() {
             <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">Zero confusion.</span>
           </h1>
           <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
-            We consolidate every bill your parent has into a single monthly payment. They pay once. We handle the rest.
+            We consolidate every bill into a single monthly payment. You pay once. We handle the rest.
           </p>
           <Link href="/get-started"
             className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-600/25">
@@ -152,10 +152,10 @@ export default function FinancialPage() {
                 Most Popular
               </div>
               <h3 className="font-bold text-white text-xl mb-1">Premium</h3>
-              <div className="text-3xl font-extrabold text-white mb-1">$89<span className="text-base font-normal text-slate-400">/mo</span></div>
-              <p className="text-slate-400 text-sm mb-5">Unlimited bills + Mobile Teller visit</p>
+              <div className="text-3xl font-extrabold text-white mb-1">$49<span className="text-base font-normal text-slate-400">/mo</span></div>
+              <p className="text-slate-400 text-sm mb-5">Unlimited bills + priority support</p>
               <ul className="space-y-2.5 mb-6">
-                {['Unlimited bills', 'Single monthly payment', 'Family dashboard', 'Monthly in-home Mobile Teller', 'Wellness check-in report', 'Priority support'].map((f) => (
+                {['Unlimited bills', 'Single monthly payment', 'Family dashboard', 'Monthly account review report', 'Priority support'].map((f) => (
                   <li key={f} className="flex items-center gap-2 text-sm text-slate-300">
                     <CheckCircle size={14} className="text-blue-600 shrink-0" /> {f}
                   </li>

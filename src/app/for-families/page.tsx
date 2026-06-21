@@ -2,17 +2,17 @@ import Link from 'next/link'
 import { ArrowRight, CheckCircle, Heart, Phone, Shield, Clock, Bell } from 'lucide-react'
 
 const WORRIES = [
-  { worry: 'Did mom pay the hydro bill this month?', solution: 'We pay it. You get a confirmation.' },
-  { worry: "Dad got a suspicious call about his account.", solution: 'Your Mobile Teller catches fraud at the monthly review.' },
-  { worry: "I live 2 hours away and can't check in often.", solution: 'We visit monthly and send you a written report.' },
-  { worry: 'She keeps forgetting which bills are due when.', solution: 'There is only one bill now. One date. We handle the rest.' },
+  { worry: 'Did the hydro bill get paid this month?', solution: 'We pay it. You get a confirmation.' },
+  { worry: "There was a suspicious call about the account.", solution: 'One Bill monitors and alerts you to anything unusual.' },
+  { worry: "I live 2 hours away and can't check in often.", solution: 'Log into the dashboard anytime and see exactly what was paid.' },
+  { worry: 'Keeping track of which bills are due when is exhausting.', solution: 'There is only one bill now. One date. We handle the rest.' },
 ]
 
 const STEPS = [
-  { step: '01', title: 'Sign up in 5 minutes', desc: 'Fill in your details, your parent\'s address, and which bills to consolidate. Choose Essential or Premium.' },
-  { step: '02', title: 'We set everything up', desc: 'We reach out within 1 business day, gather the account details, and get everything configured.' },
-  { step: '03', title: 'Your parent gets simplicity', desc: 'One bill arrives. One payment goes out. If you chose Premium, a Mobile Teller schedules their first visit.' },
-  { step: '04', title: 'You get peace of mind', desc: 'Check the family dashboard anytime. Get a monthly report after every Mobile Teller visit. No more worry calls.' },
+  { step: '01', title: 'Sign up in 5 minutes', desc: 'Fill in your details, the account address, and which bills to consolidate. Upload bill photos or enter details manually.' },
+  { step: '02', title: 'We set everything up', desc: 'We review your account within 1 business day, verify bill details, and get everything configured.' },
+  { step: '03', title: 'One bill. One date.', desc: 'One payment goes out each month covering every bill. Simple, predictable, stress-free.' },
+  { step: '04', title: 'Full visibility', desc: 'Check the dashboard anytime. See exactly what was paid, when, and to whom. No surprises.' },
 ]
 
 export default function ForFamiliesPage() {
@@ -30,14 +30,14 @@ export default function ForFamiliesPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Stop worrying about<br />
-            <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">your parent&apos;s bills.</span>
+            <span className="bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">the bills.</span>
           </h1>
           <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto mb-8">
-            You sign up. You pay the plan. Your parent gets simplicity, a trusted visitor, and their independence. You get to stop worrying.
+            You sign up. You pay the plan. Everyone gets simplicity and you get to stop worrying.
           </p>
           <Link href="/get-started"
             className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-all hover:shadow-lg hover:shadow-blue-600/25">
-            Set This Up for My Parent <ArrowRight size={17} />
+            Get Started <ArrowRight size={17} />
           </Link>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default function ForFamiliesPage() {
         </div>
       </section>
 
-      {/* How it works for families */}
+      {/* How it works */}
       <section className="py-14 md:py-20 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
@@ -77,7 +77,7 @@ export default function ForFamiliesPage() {
             {STEPS.map((s) => (
               <div key={s.step} className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-shadow">
                 <div className="absolute top-5 right-5 text-5xl font-black text-slate-100 leading-none select-none">{s.step}</div>
-                <div className="bg-blue-600/10 border border-blue-600/20 text-teal-700 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mb-4">
+                <div className="bg-blue-600/10 border border-blue-600/20 text-blue-700 w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm mb-4">
                   {s.step}
                 </div>
                 <h3 className="font-bold text-slate-900 mb-2">{s.title}</h3>
@@ -92,13 +92,13 @@ export default function ForFamiliesPage() {
       <section className="py-14 md:py-20 px-4 bg-slate-50 border-y border-slate-100">
         <div className="max-w-3xl mx-auto text-center mb-10">
           <p className="text-xs font-semibold text-blue-700 uppercase tracking-widest mb-2">Plans</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Pick what your parent needs</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Simple plans. No surprises.</h2>
         </div>
         <div className="max-w-3xl mx-auto grid sm:grid-cols-2 gap-5">
           <div className="bg-white border border-slate-200 rounded-2xl p-6">
             <h3 className="font-bold text-slate-900 text-xl mb-1">Essential</h3>
-            <div className="text-3xl font-extrabold text-slate-900 mb-4">$39<span className="text-base font-normal text-slate-400">/mo</span></div>
-            <p className="text-slate-500 text-sm mb-4">Best for parents who are managing well but need the billing simplified.</p>
+            <div className="text-3xl font-extrabold text-slate-900 mb-4">$29<span className="text-base font-normal text-slate-400">/mo</span></div>
+            <p className="text-slate-500 text-sm mb-4">Up to 8 bills consolidated.</p>
             <ul className="space-y-2 mb-6">
               {['All bills consolidated', 'One monthly payment', 'Family dashboard', 'Confirmation alerts'].map((f) => (
                 <li key={f} className="flex items-center gap-2 text-sm text-slate-700">
@@ -110,21 +110,22 @@ export default function ForFamiliesPage() {
               Choose Essential
             </Link>
           </div>
-          <div className="relative bg-slate-900 border border-slate-700 ring-2 ring-blue-600/50 rounded-2xl p-6">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-700 text-white text-xs font-bold px-3 py-1 rounded-full">
-              Recommended
+          <div className="relative bg-blue-700 border border-blue-700 rounded-2xl p-6">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full">
+              Most Popular
             </div>
             <h3 className="font-bold text-white text-xl mb-1">Premium</h3>
-            <div className="text-3xl font-extrabold text-white mb-4">$89<span className="text-base font-normal text-slate-400">/mo</span></div>
-            <p className="text-slate-400 text-sm mb-4">Best for parents who live alone, have memory concerns, or need a human touchpoint.</p>
+            <div className="text-3xl font-extrabold text-white mb-4">$49<span className="text-base font-normal text-blue-200">/mo</span></div>
+
+            <p className="text-blue-200 text-sm mb-4">Unlimited bills, priority support.</p>
             <ul className="space-y-2 mb-6">
-              {['Everything in Essential', 'Monthly Mobile Teller visit', 'Fraud & error detection', 'Written visit report to family', 'Priority support'].map((f) => (
-                <li key={f} className="flex items-center gap-2 text-sm text-slate-300">
-                  <CheckCircle size={13} className="text-blue-600 shrink-0" /> {f}
+              {['Everything in Essential', 'Unlimited bills', 'Priority phone support', 'Monthly account review report'].map((f) => (
+                <li key={f} className="flex items-center gap-2 text-sm text-blue-100">
+                  <CheckCircle size={13} className="text-blue-200 shrink-0" /> {f}
                 </li>
               ))}
             </ul>
-            <Link href="/get-started" className="block text-center bg-blue-700 hover:bg-blue-600 text-white font-bold py-3 rounded-xl text-sm transition-colors">
+            <Link href="/get-started" className="block text-center bg-white text-blue-700 hover:bg-blue-50 font-bold py-3 rounded-xl text-sm transition-colors">
               Choose Premium
             </Link>
           </div>
@@ -134,8 +135,8 @@ export default function ForFamiliesPage() {
       {/* CTA */}
       <section className="py-14 md:py-20 px-4 text-center">
         <div className="max-w-xl mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Ready to set this up?</h2>
-          <p className="text-slate-500 text-sm mb-7">Takes 5 minutes. We handle everything from there. Your parent will thank you.</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">Ready to simplify everything?</h2>
+          <p className="text-slate-500 text-sm mb-7">Takes 5 minutes. We handle everything from there.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/get-started"
               className="inline-flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-600 text-white font-bold px-8 py-3.5 rounded-xl transition-colors">

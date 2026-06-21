@@ -32,8 +32,8 @@ export default function TermsPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-2">3. Fees</h2>
             <p>Our fees consist of:</p>
             <ul className="list-disc pl-5 space-y-1 mt-2">
-              <li><strong>Monthly base fee:</strong> Essential plan — $39/month. Premium plan — $69/month.</li>
-              <li><strong>Transaction fee:</strong> 2.5% of each bill payment processed on your behalf.</li>
+              <li><strong>Monthly service fee:</strong> Essential plan — $29/month. Premium plan — $49/month.</li>
+              <li><strong>Bill payment hold:</strong> A pre-authorized hold is placed on your card each month equal to your estimated bills plus a 10% buffer (minimum $150). Only the actual amount spent is captured; the remainder is released.</li>
             </ul>
             <p className="mt-3">Fees are charged on the same date each month. You will receive a statement detailing all payments made on your behalf. We reserve the right to update our fees with 30 days written notice.</p>
           </section>

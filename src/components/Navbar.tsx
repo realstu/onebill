@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Home } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 const NAV_LINKS = [
   { href: '/financial', label: 'How It Works' },
@@ -20,12 +20,12 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 font-bold text-lg text-slate-900">
           <div className="bg-blue-700 text-white rounded-xl p-1.5">
-            <Home size={17} />
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="5" width="20" height="14" rx="2"/>
+              <path d="M16 10h2M16 14h2M6 10h8M6 14h5"/>
+            </svg>
           </div>
           <span>One Bill</span>
-          <span className="text-xs font-medium bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
-            Durham Region
-          </span>
         </Link>
 
         {/* Desktop nav */}

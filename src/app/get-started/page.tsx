@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { CheckCircle, ArrowRight, DollarSign, Heart, Plus, Trash2, Lock } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { CheckCircle, ArrowRight, DollarSign, Heart, Plus, Trash2, Lock, Upload, Image } from 'lucide-react'
 import { submitOneBillSignup } from './actions'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
@@ -15,15 +15,77 @@ const BILL_TYPES = [
   'Property Tax', 'Mortgage / Rent', 'Credit Card', 'Other',
 ]
 
-const PLANS = [
-  { id: 'essential', name: 'Essential', price: '$39/mo + 2.5%', desc: 'Up to 8 bills consolidated + family dashboard', icon: DollarSign },
-  { id: 'premium', name: 'Premium', price: '$69/mo + 2.5%', desc: 'Unlimited bills + priority support + monthly review report', icon: Heart },
+const BILLING_METHODS = [
+  { value: 'manual', label: 'Paper bill / manual' },
+  { value: 'email', label: 'Email — forward to One Bill' },
+  { value: 'online', label: 'Online account access' },
+  { value: 'autopay', label: 'Already on autopay' },
 ]
 
-type Bill = { provider: string; billType: string; accountNumber: string; monthlyAmount: string }
-const emptyBill = (): Bill => ({ provider: '', billType: '', accountNumber: '', monthlyAmount: '' })
+const FREQUENCIES = [
+  { value: 'monthly', label: 'Monthly' },
+  { value: 'bimonthly', label: 'Every 2 months' },
+  { value: 'quarterly', label: 'Quarterly' },
+  { value: 'semiannual', label: 'Semi-annual' },
+  { value: 'annual', label: 'Annual' },
+  { value: 'manual', label: 'Varies / as received' },
+]
+
+const PLANS = [
+  { id: 'essential', name: 'Essential', price: '$29/mo', desc: 'Up to 8 bills consolidated + family dashboard', icon: DollarSign },
+  { id: 'premium', name: 'Premium', price: '$49/mo', desc: 'Unlimited bills + priority support + monthly review report', icon: Heart },
+]
+
+type Bill = { provider: string; billType: string; accountNumber: string; monthlyAmount: string; billingMethod: string; frequency: string; imageUrl?: string; imageName?: string }
+const emptyBill = (): Bill => ({ provider: '', billType: '', accountNumber: '', monthlyAmount: '', billingMethod: 'manual', frequency: 'monthly' })
 
 type SignupResult = { clientId: string; stripeCustomerId: string }
+
+function BillUpload({ index, imageUrl, imageName, onUploaded }: {
+  index: number
+  imageUrl?: string
+  imageName?: string
+  onUploaded: (url: string, name: string) => void
+}) {
+  const ref = useRef<HTMLInputElement>(null)
+  const [uploading, setUploading] = useState(false)
+
+  async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('clientId', 'pending')
+    const res = await fetch('/api/bills/upload', { method: 'POST', body: fd })
+    const data = await res.json()
+    if (data.url) onUploaded(data.url, file.name)
+    setUploading(false)
+  }
+
+  return (
+    <div className="mt-2">
+      <input ref={ref} type="file" accept="image/*,.pdf" onChange={handleFile} className="hidden" />
+      {imageUrl ? (
+        <div className="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+          <Image size={13} className="text-green-600 shrink-0" />
+          <span className="text-xs text-green-700 font-medium truncate flex-1">{imageName}</span>
+          <button type="button" onClick={() => ref.current?.click()} className="text-xs text-green-600 hover:underline shrink-0">Replace</button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => ref.current?.click()}
+          disabled={uploading}
+          className="w-full flex items-center justify-center gap-2 border border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50 rounded-lg px-3 py-2 text-xs text-slate-400 hover:text-blue-600 transition-colors"
+        >
+          <Upload size={13} />
+          {uploading ? 'Uploading...' : 'Upload bill photo or PDF (optional)'}
+        </button>
+      )}
+    </div>
+  )
+}
 
 function PaymentStep({
   result,
@@ -39,7 +101,7 @@ function PaymentStep({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const planLabel = plan === 'premium' ? '$69/mo' : '$39/mo'
+  const planLabel = plan === 'premium' ? '$49/mo' : '$29/mo'
 
   async function handlePayment(e: React.FormEvent) {
     e.preventDefault()
@@ -96,7 +158,7 @@ function PaymentStep({
 
       <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3">
         <p className="text-sm font-semibold text-blue-900">Your plan: <span className="capitalize">{plan}</span> — {planLabel}</p>
-        <p className="text-xs text-blue-700 mt-0.5">+ 2.5% on each bill payment processed. First charge today.</p>
+        <p className="text-xs text-blue-700 mt-0.5">Monthly service fee only. Bills are pre-authorized and collected separately.</p>
       </div>
 
       <div>
@@ -136,8 +198,10 @@ export default function GetStartedPage() {
   const [form, setForm] = useState({
     familyName: '', familyPhone: '', familyEmail: '',
     parentName: '', parentAddress: '', parentCity: '',
+    poaName: '', poaEmail: '', poaPhone: '',
     plan: 'essential', notes: '',
   })
+  const [showPoa, setShowPoa] = useState(false)
   const [bills, setBills] = useState<Bill[]>([emptyBill()])
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
@@ -157,6 +221,9 @@ export default function GetStartedPage() {
     try {
       const result = await submitOneBillSignup({
         ...form,
+        poaName: form.poaName || null,
+        poaEmail: form.poaEmail || null,
+        poaPhone: form.poaPhone || null,
         bills: bills.filter(b => b.provider || b.billType),
       })
       setSignupResult(result)
@@ -206,7 +273,7 @@ export default function GetStartedPage() {
         </div>
         <div className="flex justify-center gap-8 text-xs text-slate-400 mb-8">
           <span className={step >= 1 ? 'text-blue-700 font-medium' : ''}>Your Info</span>
-          <span className={step >= 2 ? 'text-blue-700 font-medium' : ''}>Parent Info</span>
+          <span className={step >= 2 ? 'text-blue-700 font-medium' : ''}>Account Info</span>
           <span className={step >= 3 ? 'text-blue-700 font-medium' : ''}>Bills & Plan</span>
           <span className={step >= 4 ? 'text-blue-700 font-medium' : ''}>Payment</span>
         </div>
@@ -248,9 +315,9 @@ export default function GetStartedPage() {
           {/* Step 2 */}
           {step === 2 && (
             <div className="space-y-4">
-              <h2 className="text-lg font-bold text-slate-900 mb-5">Senior&apos;s information</h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-5">Account holder information</h2>
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">Senior&apos;s Full Name</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">Full Name</label>
                 <input name="parentName" required value={form.parentName} onChange={handleChange}
                   placeholder="Margaret Smith"
                   className="w-full border border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none transition-colors" />
@@ -267,6 +334,48 @@ export default function GetStartedPage() {
                   placeholder="Whitby"
                   className="w-full border border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none transition-colors" />
               </div>
+              {/* POA section */}
+              <div className="border border-slate-200 rounded-xl overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setShowPoa(!showPoa)}
+                  className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 hover:bg-slate-100 transition-colors text-left"
+                >
+                  <div>
+                    <span className="text-sm font-semibold text-slate-700">Power of Attorney</span>
+                    <span className="text-xs text-slate-400 ml-2">(optional)</span>
+                  </div>
+                  <span className="text-slate-400 text-xs">{showPoa ? '▲ Hide' : '▼ Add'}</span>
+                </button>
+                {showPoa && (
+                  <div className="px-4 py-4 space-y-3 border-t border-slate-100">
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      If someone holds Power of Attorney for the account holder, add them here. They will receive copies of all approval requests and statements.
+                    </p>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-500 mb-1">POA Full Name</label>
+                      <input name="poaName" value={form.poaName} onChange={handleChange}
+                        placeholder="John Smith"
+                        className="w-full border border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none transition-colors" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 mb-1">POA Email</label>
+                        <input name="poaEmail" type="email" value={form.poaEmail} onChange={handleChange}
+                          placeholder="john@email.com"
+                          className="w-full border border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none transition-colors" />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-slate-500 mb-1">POA Phone</label>
+                        <input name="poaPhone" value={form.poaPhone} onChange={handleChange}
+                          placeholder="905-555-1234"
+                          className="w-full border border-slate-200 focus:border-blue-400 rounded-xl px-4 py-2.5 text-sm text-slate-900 outline-none transition-colors" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="flex gap-3 mt-2">
                 <button type="button" onClick={() => setStep(1)}
                   className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl transition-colors text-sm">
@@ -353,6 +462,22 @@ export default function GetStartedPage() {
                           </select>
                         </div>
                       </div>
+                      <div className="grid grid-cols-2 gap-2 mb-2">
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">How is this bill delivered?</label>
+                          <select value={bill.billingMethod} onChange={(e) => updateBill(i, 'billingMethod', e.target.value)}
+                            className="w-full border border-slate-200 focus:border-blue-400 rounded-lg px-3 py-2 text-sm text-slate-900 outline-none bg-white transition-colors">
+                            {BILLING_METHODS.map(m => <option key={m.value} value={m.value}>{m.label}</option>)}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-slate-400 mb-1">How often?</label>
+                          <select value={bill.frequency} onChange={(e) => updateBill(i, 'frequency', e.target.value)}
+                            className="w-full border border-slate-200 focus:border-blue-400 rounded-lg px-3 py-2 text-sm text-slate-900 outline-none bg-white transition-colors">
+                            {FREQUENCIES.map(f => <option key={f.value} value={f.value}>{f.label}</option>)}
+                          </select>
+                        </div>
+                      </div>
                       <div className="grid grid-cols-2 gap-2">
                         <div>
                           <label className="block text-xs text-slate-400 mb-1">Account Number <span className="text-slate-300">(optional)</span></label>
@@ -367,6 +492,14 @@ export default function GetStartedPage() {
                             className="w-full border border-slate-200 focus:border-blue-400 rounded-lg px-3 py-2 text-sm text-slate-900 outline-none bg-white transition-colors" />
                         </div>
                       </div>
+                      <BillUpload
+                        index={i}
+                        imageUrl={bill.imageUrl}
+                        imageName={bill.imageName}
+                        onUploaded={(url, name) => {
+                          setBills(prev => prev.map((b, idx) => idx === i ? { ...b, imageUrl: url, imageName: name } : b))
+                        }}
+                      />
                     </div>
                   ))}
                 </div>

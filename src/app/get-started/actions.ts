@@ -8,15 +8,16 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2026-05-27.dahlia' })
 
 const PLAN_BASE_FEE: Record<string, number> = {
-  essential: 39,
-  premium: 69,
+  essential: 29,
+  premium: 49,
 }
 
-const TRANSACTION_RATE = 0.025 // 2.5% on each bill payment processed
+const BUFFER_RATE = 0.10 // 10% buffer on estimated bill total, minimum $150
+const BUFFER_MIN = 150
 
 const PLAN_LABELS: Record<string, string> = {
-  essential: 'Essential ($39/mo + 2.5% per transaction)',
-  premium: 'Premium ($69/mo + 2.5% per transaction)',
+  essential: 'Essential ($29/mo — up to 8 bills)',
+  premium: 'Premium ($49/mo — unlimited bills)',
 }
 
 export async function submitOneBillSignup(data: {
@@ -27,8 +28,11 @@ export async function submitOneBillSignup(data: {
   parentAddress: string
   parentCity: string
   plan: string
-  bills: { provider: string; billType: string; accountNumber: string; monthlyAmount: string }[]
+  bills: { provider: string; billType: string; accountNumber: string; monthlyAmount: string; billingMethod: string; frequency: string }[]
   notes: string
+  poaName?: string | null
+  poaEmail?: string | null
+  poaPhone?: string | null
 }) {
   // 1. Create Stripe customer
   const stripeCustomer = await stripe.customers.create({
@@ -56,6 +60,9 @@ export async function submitOneBillSignup(data: {
       notes: data.notes,
       status: 'pending',
       stripe_customer_id: stripeCustomer.id,
+      poa_name: data.poaName ?? null,
+      poa_email: data.poaEmail ?? null,
+      poa_phone: data.poaPhone ?? null,
     })
     .select('id')
     .single()
@@ -72,6 +79,8 @@ export async function submitOneBillSignup(data: {
         bill_type: b.billType,
         account_number: b.accountNumber || null,
         monthly_amount: b.monthlyAmount ? parseFloat(b.monthlyAmount) : null,
+        billing_method: b.billingMethod || 'manual',
+        frequency: b.frequency || 'monthly',
         status: 'active',
       }))
     )
@@ -79,10 +88,11 @@ export async function submitOneBillSignup(data: {
 
   // 4. Calculate estimated monthly total
   const billCount = validBills.length
-  const baseFee = PLAN_BASE_FEE[data.plan] ?? 39
+  const baseFee = PLAN_BASE_FEE[data.plan] ?? 29
   const totalBillValue = validBills.reduce((sum, b) => sum + (b.monthlyAmount ? parseFloat(b.monthlyAmount) : 0), 0)
-  const transactionFee = totalBillValue * TRANSACTION_RATE
-  const estimatedTotal = (baseFee + transactionFee).toFixed(2)
+  const buffer = Math.max(totalBillValue * BUFFER_RATE, BUFFER_MIN)
+  const preAuthAmount = (totalBillValue + buffer).toFixed(2)
+  const estimatedTotal = (baseFee + totalBillValue).toFixed(2)
 
   // 5. Notify admin
   await resend.emails.send({
@@ -95,7 +105,10 @@ export async function submitOneBillSignup(data: {
       <p><strong>Senior:</strong> ${data.parentName}, ${data.parentAddress}, ${data.parentCity}</p>
       <p><strong>Plan:</strong> ${PLAN_LABELS[data.plan] ?? data.plan}</p>
       <p><strong>Bills Added:</strong> ${billCount}</p>
-      <p><strong>Estimated Monthly:</strong> $${estimatedTotal}/mo</p>
+      <p><strong>Estimated Bills Total:</strong> $${totalBillValue.toFixed(2)}/mo</p>
+      <p><strong>Service Fee:</strong> $${baseFee}/mo</p>
+      <p><strong>Pre-Auth Amount (bills + 10% buffer, min $150):</strong> $${preAuthAmount}</p>
+      <p><strong>Estimated Total to Client:</strong> $${estimatedTotal}/mo</p>
       <p><strong>Stripe Customer ID:</strong> ${stripeCustomer.id}</p>
       ${data.notes ? `<p><strong>Notes:</strong> ${data.notes}</p>` : ''}
       <p><a href="https://dashboard.stripe.com/test/customers/${stripeCustomer.id}">View in Stripe →</a></p>
@@ -113,7 +126,9 @@ export async function submitOneBillSignup(data: {
       <p>
         <strong>Plan:</strong> ${PLAN_LABELS[data.plan] ?? data.plan}<br/>
         <strong>Bills to consolidate:</strong> ${billCount}<br/>
-        <strong>Estimated monthly total:</strong> $${estimatedTotal}/mo
+        <strong>Monthly service fee:</strong> $${baseFee}/mo<br/>
+        <strong>Estimated bills total:</strong> $${totalBillValue.toFixed(2)}/mo<br/>
+        <strong>Monthly pre-authorization hold:</strong> $${preAuthAmount} (released at month end — you only pay what was spent)
       </p>
       <p>Questions? Just reply to this email.</p>
       <p>— The One Bill Team<br/>Durham Region, Ontario</p>
